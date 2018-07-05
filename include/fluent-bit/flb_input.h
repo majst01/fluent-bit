@@ -563,6 +563,14 @@ static inline void flb_input_buf_write_end(struct flb_input_instance *i)
     int records;
 #endif
 
+    if ( i == NULL ) {
+        flb_error("[input] flb_input_instance is NULL");
+        return;
+    }
+    if ( i->mp_sbuf == NULL ) {
+        flb_error("[input] flb_input_instance.mp_sbuf is NULL");
+        return;
+    }
     /* Get the number of new bytes */
     bytes = (i->mp_sbuf.size - i->mp_buf_write_size);
     if (bytes == 0) {
