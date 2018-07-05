@@ -563,12 +563,8 @@ static inline void flb_input_buf_write_end(struct flb_input_instance *i)
     int records;
 #endif
 
-    if ( i == NULL ) {
+    if ( !i ) {
         flb_error("[input] flb_input_instance is NULL");
-        return;
-    }
-    if ( i->mp_sbuf == NULL ) {
-        flb_error("[input] flb_input_instance.mp_sbuf is NULL");
         return;
     }
     /* Get the number of new bytes */
@@ -602,10 +598,12 @@ static inline void flb_input_buf_write_end(struct flb_input_instance *i)
      * Update buffer size counter: this kind of input instance have just
      * one msgpack buffer to use as a counter.
      */
+    flb_debug("[input %s] start update buffer size");
     flb_input_buf_size_set(i);
     flb_debug("[input %s] [mem buf] size = %lu", i->name, i->mp_total_buf_size);
 
     /* Check if we are over the buf limit */
+    flb_debug("[input %s] check for buffer limit");
     flb_input_buf_check(i);
 }
 
